@@ -124,7 +124,7 @@ Tuuru Water Management System is a cutting-edge platform designed specifically f
 
 ### 🎥 **Live Demo**
   
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Now-2ea44f?style=for-the-badge)](https://tuuru-water-management.vercel.app)
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Now-2ea44f?style=for-the-badge)](https://water-billing-system-chi.vercel.app/login)
 
 <img src="https://raw.githubusercontent.com/MelgibsonK/water-billing-system/main/public/demo.gif" alt="Demo" width="800" />
 
