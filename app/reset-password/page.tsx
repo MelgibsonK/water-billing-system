@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -11,7 +11,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { auth } from "@/lib/supabase"
 
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -327,5 +327,25 @@ export default function ResetPasswordPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50 flex items-center justify-center">
+        <div className="text-center space-y-6">
+          <div className="w-16 h-16 tuuru-gradient rounded-3xl flex items-center justify-center mx-auto animate-pulse">
+            <Waves className="w-8 h-8 text-white" />
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold text-slate-800">Loading...</h2>
+            <p className="text-slate-600">Please wait</p>
+          </div>
+        </div>
+      </div>
+    }>
+      <ResetPasswordForm />
+    </Suspense>
   )
 } 
