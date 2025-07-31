@@ -3,7 +3,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <a href="https://github.com/MelgibsonK/water-billing-system">
-  <img src="https://raw.githubusercontent.com/MelgibsonK/water-billing-system/main/public/logo.png" alt="Logo" width="120" height="120">
+  <img src="https://raw.githubusercontent.com/MelgibsonK/water-billing-system/main/public/tuuru-logo.png" alt="Logo" width="120" height="120">
 </a>
 
 <h1 align="center">
