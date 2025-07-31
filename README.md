@@ -35,7 +35,7 @@ A comprehensive water management platform built with Next.js, TypeScript, and Su
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/MelgibsonK/water-billing-system
 cd tuuru-water-management
 ```
 
