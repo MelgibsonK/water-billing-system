@@ -11,7 +11,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { auth } from "@/lib/supabase"
 
-function ResetPasswordForm() {
+function ResetPasswordContent() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -345,7 +345,7 @@ export default function ResetPasswordPage() {
         </div>
       </div>
     }>
-      <ResetPasswordForm />
+      <ResetPasswordContent />
     </Suspense>
   )
 } 
