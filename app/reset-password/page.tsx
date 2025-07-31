@@ -1,17 +1,17 @@
 "use client"
 
-import { useState, useEffect, Suspense } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Eye, EyeOff, Lock, ArrowLeft, CheckCircle, Loader2, Shield, Zap, Waves } from "lucide-react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { auth } from "@/lib/supabase"
 
-function ResetPasswordContent() {
+export default function ResetPasswordPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -21,18 +21,24 @@ function ResetPasswordContent() {
     password: "",
     confirmPassword: "",
   })
+  const [isValidLink, setIsValidLink] = useState(false)
+  const [isCheckingLink, setIsCheckingLink] = useState(true)
   const router = useRouter()
-  const searchParams = useSearchParams()
 
   useEffect(() => {
-    // Check if we have the necessary tokens in the URL
-    const accessToken = searchParams.get('access_token')
-    const refreshToken = searchParams.get('refresh_token')
+    // Check URL parameters on client side
+    const urlParams = new URLSearchParams(window.location.search)
+    const accessToken = urlParams.get('access_token')
+    const refreshToken = urlParams.get('refresh_token')
     
     if (!accessToken || !refreshToken) {
       setError("Invalid or expired reset link. Please request a new password reset.")
+      setIsValidLink(false)
+    } else {
+      setIsValidLink(true)
     }
-  }, [searchParams])
+    setIsCheckingLink(false)
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -78,6 +84,23 @@ function ResetPasswordContent() {
       ...prev,
       [e.target.name]: e.target.value,
     }))
+  }
+
+  // Show loading while checking link validity
+  if (isCheckingLink) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50 flex items-center justify-center">
+        <div className="text-center space-y-6">
+          <div className="w-16 h-16 tuuru-gradient rounded-3xl flex items-center justify-center mx-auto animate-pulse">
+            <Waves className="w-8 h-8 text-white" />
+          </div>
+          <div>
+            <h2 className="text-xl font-semibold text-slate-800">Loading...</h2>
+            <p className="text-slate-600">Please wait</p>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -237,6 +260,7 @@ function ResetPasswordContent() {
                   placeholder="Enter your new password"
                   className="pl-10 pr-10 h-12 text-base border-slate-200 focus:border-emerald-500 focus:ring-emerald-500"
                   required
+                  disabled={!isValidLink}
                 />
                 <button
                   type="button"
@@ -264,6 +288,7 @@ function ResetPasswordContent() {
                   placeholder="Confirm your new password"
                   className="pl-10 pr-10 h-12 text-base border-slate-200 focus:border-emerald-500 focus:ring-emerald-500"
                   required
+                  disabled={!isValidLink}
                 />
                 <button
                   type="button"
@@ -277,7 +302,7 @@ function ResetPasswordContent() {
 
             <Button
               type="submit"
-              disabled={isLoading || !formData.password || !formData.confirmPassword}
+              disabled={isLoading || !formData.password || !formData.confirmPassword || !isValidLink}
               className="w-full h-12 text-base font-semibold bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-xl shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/30 transition-all duration-300 hover:-translate-y-0.5"
             >
               {isLoading ? (
@@ -327,25 +352,5 @@ function ResetPasswordContent() {
         </div>
       </div>
     </div>
-  )
-}
-
-export default function ResetPasswordPage() {
-  return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50 flex items-center justify-center">
-        <div className="text-center space-y-6">
-          <div className="w-16 h-16 tuuru-gradient rounded-3xl flex items-center justify-center mx-auto animate-pulse">
-            <Waves className="w-8 h-8 text-white" />
-          </div>
-          <div>
-            <h2 className="text-xl font-semibold text-slate-800">Loading...</h2>
-            <p className="text-slate-600">Please wait</p>
-          </div>
-        </div>
-      </div>
-    }>
-      <ResetPasswordContent />
-    </Suspense>
   )
 } 

@@ -135,8 +135,10 @@ export const auth = {
   },
 
   async resetPassword(email: string) {
+    // Use environment variable for production, fallback to window.location.origin for development
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || window.location.origin
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
+      redirectTo: `${baseUrl}/reset-password`,
     })
     return { data, error }
   },
